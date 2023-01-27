@@ -5,6 +5,7 @@ import styles from './App.module.css';
 
 function App() {
 	const [model, handleModelChange] = useReducer(applyChange, null, initModel);
+	const { box, partSpacing, zoom } = model;
 
 	return (
 		<div>
@@ -18,8 +19,8 @@ function App() {
 						backgroundColor: '#fff',
 					}}
 				>
-					<g transform={`${model.zoom ? 'scale(2) ' : ''} translate(20,20)`}>
-						<BoxParts box={model.box} partSpacing={model.partSpacing} />
+					<g transform={`${zoom ? 'scale(2) ' : ''} translate(20,20)`}>
+						<BoxParts box={box} partSpacing={partSpacing} />
 					</g>
 				</svg>
 				<div>
@@ -38,7 +39,7 @@ const defaultModel = {
 		width: 70,
 		length: 80,
 		depth: 30,
-		dividers: [],
+		dividerCount: 0, // TODO: custom divider placement
 	},
 	partSpacing: 4,
 	zoom: true,

@@ -1,4 +1,4 @@
-import { squiggle, tabbed } from './path-util';
+import { squiggle, tabbed, divided } from './path-util';
 
 export function BoxParts({ box, partSpacing }) {
 	return (
@@ -126,7 +126,16 @@ export function BoxParts({ box, partSpacing }) {
 					<Path d={squiggle.h(0, 0, box.materialThickness, box.depth)} />
 					<Path
 						d={`M ${box.depth},${box.materialThickness}
-							V ${box.length}`}
+							${divided.v(
+								box.depth,
+								0,
+								box.length,
+								box.dividerCount,
+								-(box.depth / 2),
+								box.materialThickness,
+								{ implicitStart: true }
+							)}`}
+						stroke="blue"
 					/>
 					<Path
 						d={squiggle.h(

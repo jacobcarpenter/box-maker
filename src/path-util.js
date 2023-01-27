@@ -50,6 +50,35 @@ export const tabbed = {
 	},
 };
 
+export const divided = {
+	v(
+		startX,
+		startY,
+		fullDistance,
+		dividerCount,
+		dividerDepth,
+		dividerThickness,
+		{ implicitStart, implicitEnd } = {
+			implicitStart: false,
+			implicitEnd: false,
+		}
+	) {
+		const spaceAround = fullDistance - dividerCount * dividerThickness;
+		const singleSpace = spaceAround / (dividerCount + 1);
+
+		return `${implicitStart ? '' : `M ${startX},${startY}`}
+			${Array.from(
+				{ length: dividerCount },
+				(_, index) =>
+					`V ${(singleSpace + dividerThickness) * index + singleSpace}
+					h ${dividerDepth}
+					v ${dividerThickness}
+					h ${-dividerDepth}`
+			)}
+			${implicitEnd ? '' : `V ${startY + fullDistance}`}`;
+	},
+};
+
 export const squiggle = {
 	v(startX, startY, squiggleWidth, height) {
 		const halfHeight = height / 2;

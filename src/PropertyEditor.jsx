@@ -9,48 +9,62 @@ export function PropertyEditor({ model, onChange }) {
 	const widthId = useId();
 	const lengthId = useId();
 	const depthId = useId();
+	const dividerCountId = useId();
 	const spacingId = useId();
 
 	// TODO: CSS subgrid would be nice...
+	// TODO: JedWatson/classnames?
 	return (
-		<form className={styles.layout}>
+		<form className={`${[styles.main, styles.stack].join(' ')}`}>
 			<ModelChangeContext.Provider value={onChange}>
-				<NumberProperty
-					id={materialThicknessId}
-					title="material thickness"
-					value={model.box.materialThickness}
-					makeModelPartial={(value) => ({ box: { materialThickness: value } })}
-				/>
+				<div className={styles.twoColumn}>
+					<NumberProperty
+						id={materialThicknessId}
+						title="material thickness"
+						value={model.box.materialThickness}
+						makeModelPartial={(value) => ({
+							box: { materialThickness: value },
+						})}
+					/>
 
-				<NumberProperty
-					id={widthId}
-					title="width"
-					value={model.box.width}
-					makeModelPartial={(value) => ({ box: { width: value } })}
-				/>
+					<NumberProperty
+						id={widthId}
+						title="width"
+						value={model.box.width}
+						makeModelPartial={(value) => ({ box: { width: value } })}
+					/>
 
-				<NumberProperty
-					id={lengthId}
-					title="length"
-					value={model.box.length}
-					makeModelPartial={(value) => ({ box: { length: value } })}
-				/>
+					<NumberProperty
+						id={lengthId}
+						title="length"
+						value={model.box.length}
+						makeModelPartial={(value) => ({ box: { length: value } })}
+					/>
 
-				<NumberProperty
-					id={depthId}
-					title="depth"
-					value={model.box.depth}
-					makeModelPartial={(value) => ({ box: { depth: value } })}
-				/>
+					<NumberProperty
+						id={depthId}
+						title="depth"
+						value={model.box.depth}
+						makeModelPartial={(value) => ({ box: { depth: value } })}
+					/>
 
-				<NumberProperty
-					id={spacingId}
-					title="part spacing"
-					value={model.partSpacing}
-					makeModelPartial={(value) => ({ partSpacing: value })}
-				/>
+					<NumberProperty
+						id={dividerCountId}
+						title="divider count"
+						value={model.box.dividerCount}
+						makeModelPartial={(value) => ({ box: { dividerCount: value } })}
+					/>
 
-				<div className={styles.twoColumnSpan}>
+					<NumberProperty
+						id={spacingId}
+						title="part spacing"
+						value={model.partSpacing}
+						makeModelPartial={(value) => ({ partSpacing: value })}
+					/>
+				</div>
+
+				{/* TODO: move zoom controls somewhere else */}
+				<div>
 					<label>
 						<input
 							type="checkbox"
