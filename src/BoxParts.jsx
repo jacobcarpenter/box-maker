@@ -63,8 +63,18 @@ export function BoxParts({ box, partSpacing }) {
 						)}
 					/>
 					<Path
-						d={`M 0,${box.length - box.materialThickness}
-							L 0,0`}
+						d={`M 0,0
+							${divided.v(
+								0,
+								0,
+								box.length,
+								box.dividerCount,
+								box.depth / 2,
+								box.materialThickness,
+								{ implicitEnd: true }
+							)}
+							L 0,${box.length - box.materialThickness}`}
+						stroke="blue"
 					/>
 				</g>
 
@@ -201,6 +211,44 @@ export function BoxParts({ box, partSpacing }) {
 						H ${box.materialThickness}
 						V 0`}
 				/>
+			</g>
+
+			<g
+				transform={`translate(${
+					box.depth +
+					partSpacing +
+					box.width +
+					partSpacing +
+					box.depth +
+					partSpacing * 2 // * 2 not necessary, but more aesthetic
+				},0)`}
+			>
+				{Array.from({ length: box.dividerCount }).map((_, index) => (
+					<g
+						key={index}
+						transform={`translate(0,${(box.depth + partSpacing) * index})`}
+					>
+						<Path d={`M 0,0 L ${box.width},0`} />
+						<Path
+							d={`M ${box.width},0
+							V ${box.depth / 2}
+							h ${-box.materialThickness}
+							V ${box.depth - box.materialThickness}`}
+						/>
+						<Path
+							d={`M ${box.width - box.materialThickness},${
+								box.depth - box.materialThickness
+							}
+								H ${box.materialThickness}`}
+						/>
+						<Path
+							d={`M 0,0
+							V ${box.depth / 2}
+							h ${box.materialThickness}
+							V ${box.depth - box.materialThickness}`}
+						/>
+					</g>
+				))}
 			</g>
 		</>
 	);
