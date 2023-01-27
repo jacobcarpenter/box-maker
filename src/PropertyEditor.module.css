@@ -1,0 +1,12 @@
+.layout {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	align-content: start;
+	gap: 12px;
+	column-gap: 1em;
+	text-align: left;
+}
+
+.twoColumnSpan {
+	grid-column: span 2;
+}
