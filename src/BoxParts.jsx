@@ -6,23 +6,23 @@ export function BoxParts({ box, partSpacing }) {
 			<g transform={`translate(${box.depth + partSpacing},0)`}>
 				<Path
 					d={`M ${box.materialThickness},0
-									H ${box.width}`}
+						H ${box.width}`}
 				/>
 				<Path d={squiggle.v(box.width, 0, box.materialThickness, box.depth)} />
 				<Path
 					d={`M 0,${box.depth}
-									h ${box.materialThickness}
-									${tabbed.h(
-										box.materialThickness,
-										box.depth,
-										box.width - 2 * box.materialThickness,
-										10,
-										15,
-										box.materialThickness,
-										{
-											implicitStart: true,
-										}
-									)}`}
+						h ${box.materialThickness}
+						${tabbed.h(
+							box.materialThickness,
+							box.depth,
+							box.width - 2 * box.materialThickness,
+							10,
+							15,
+							box.materialThickness,
+							{
+								implicitStart: true,
+							}
+						)}`}
 					stroke="red"
 				/>
 				<Path
@@ -40,18 +40,18 @@ export function BoxParts({ box, partSpacing }) {
 					<Path d={squiggle.h(0, 0, box.materialThickness, box.depth)} />
 					<Path
 						d={`
-										${tabbed.v(
-											box.depth,
-											box.materialThickness,
-											box.length - 2 * box.materialThickness,
-											10,
-											15,
-											-box.materialThickness,
-											{
-												implicitEnd: true,
-											}
-										)}
-										V ${box.length}`}
+							${tabbed.v(
+								box.depth,
+								box.materialThickness,
+								box.length - 2 * box.materialThickness,
+								10,
+								15,
+								-box.materialThickness,
+								{
+									implicitEnd: true,
+								}
+							)}
+							V ${box.length}`}
 						stroke="red"
 					/>
 					<Path
@@ -64,7 +64,7 @@ export function BoxParts({ box, partSpacing }) {
 					/>
 					<Path
 						d={`M 0,${box.length - box.materialThickness}
-										L 0,0`}
+							L 0,0`}
 					/>
 				</g>
 
@@ -126,7 +126,7 @@ export function BoxParts({ box, partSpacing }) {
 					<Path d={squiggle.h(0, 0, box.materialThickness, box.depth)} />
 					<Path
 						d={`M ${box.depth},${box.materialThickness}
-										V ${box.length}`}
+							V ${box.length}`}
 					/>
 					<Path
 						d={squiggle.h(
@@ -138,18 +138,18 @@ export function BoxParts({ box, partSpacing }) {
 					/>
 					<Path
 						d={`M 0,0
-										v ${box.materialThickness}
-										${tabbed.v(
-											0,
-											box.materialThickness,
-											box.length - 2 * box.materialThickness,
-											10,
-											15,
-											box.materialThickness,
-											{
-												implicitStart: true,
-											}
-										)}`}
+							v ${box.materialThickness}
+							${tabbed.v(
+								0,
+								box.materialThickness,
+								box.length - 2 * box.materialThickness,
+								10,
+								15,
+								box.materialThickness,
+								{
+									implicitStart: true,
+								}
+							)}`}
 						stroke="red"
 					/>
 				</g>
@@ -162,35 +162,35 @@ export function BoxParts({ box, partSpacing }) {
 			>
 				<Path
 					d={`
-									${tabbed.h(
-										box.materialThickness,
-										0,
-										box.width - 2 * box.materialThickness,
-										10,
-										15,
-										-box.materialThickness,
-										{
-											implicitEnd: true,
-										}
-									)}
-									H ${box.width}`}
+						${tabbed.h(
+							box.materialThickness,
+							0,
+							box.width - 2 * box.materialThickness,
+							10,
+							15,
+							-box.materialThickness,
+							{
+								implicitEnd: true,
+							}
+						)}
+						H ${box.width}`}
 					stroke="red"
 				/>
 				<Path
 					d={`M ${box.width},0
-									V ${box.depth / 2}
-									H ${box.width - box.materialThickness}
-									V ${box.depth}`}
+						V ${box.depth / 2}
+						H ${box.width - box.materialThickness}
+						V ${box.depth}`}
 				/>
 				<Path
 					d={`M ${box.width - box.materialThickness},${box.depth}
-									H 0`}
+						H 0`}
 				/>
 				<Path
 					d={`M 0,${box.depth}
-									V ${box.depth / 2}
-									H ${box.materialThickness}
-									V 0`}
+						V ${box.depth / 2}
+						H ${box.materialThickness}
+						V 0`}
 				/>
 			</g>
 		</>
