@@ -1,25 +1,24 @@
-import { useId, createContext, useContext } from 'react';
+import { useId, createContext, useMemo, useContext } from 'react';
 import { NumberInput } from './NumberInput';
 import styles from './PropertyEditor.module.css';
 
 const ModelChangeContext = createContext();
 
 export function PropertyEditor({ model, onChange }) {
-	const materialThicknessId = useId();
-	const widthId = useId();
-	const lengthId = useId();
-	const depthId = useId();
-	const dividerCountId = useId();
-	const spacingId = useId();
+	const formId = useId();
+
+	const modelChangeContextValue = useMemo(
+		() => ({ formId, onChange }),
+		[formId, onChange]
+	);
 
 	// TODO: CSS subgrid would be nice...
 	// TODO: JedWatson/classnames?
 	return (
 		<form className={`${[styles.main, styles.stack].join(' ')}`}>
-			<ModelChangeContext.Provider value={onChange}>
+			<ModelChangeContext.Provider value={modelChangeContextValue}>
 				<div className={styles.twoColumn}>
 					<NumberProperty
-						id={materialThicknessId}
 						title="material thickness"
 						value={model.box.materialThickness}
 						makeModelPartial={(value) => ({
@@ -28,35 +27,30 @@ export function PropertyEditor({ model, onChange }) {
 					/>
 
 					<NumberProperty
-						id={widthId}
 						title="width"
 						value={model.box.width}
 						makeModelPartial={(value) => ({ box: { width: value } })}
 					/>
 
 					<NumberProperty
-						id={lengthId}
 						title="length"
 						value={model.box.length}
 						makeModelPartial={(value) => ({ box: { length: value } })}
 					/>
 
 					<NumberProperty
-						id={depthId}
 						title="depth"
 						value={model.box.depth}
 						makeModelPartial={(value) => ({ box: { depth: value } })}
 					/>
 
 					<NumberProperty
-						id={dividerCountId}
 						title="divider count"
 						value={model.box.dividerCount}
 						makeModelPartial={(value) => ({ box: { dividerCount: value } })}
 					/>
 
 					<NumberProperty
-						id={spacingId}
 						title="part spacing"
 						value={model.partSpacing}
 						makeModelPartial={(value) => ({ partSpacing: value })}
@@ -81,8 +75,9 @@ export function PropertyEditor({ model, onChange }) {
 	);
 }
 
-function NumberProperty({ id, title, value, makeModelPartial }) {
-	const onChange = useContext(ModelChangeContext);
+function NumberProperty({ title, value, makeModelPartial }) {
+	const { formId, onChange } = useContext(ModelChangeContext);
+	const id = `${formId}-${title.replace(' ', '-')}`;
 
 	// must return fragment so display grid lays out properly
 	return (
