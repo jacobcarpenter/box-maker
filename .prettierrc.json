@@ -1,0 +1,13 @@
+{
+	"useTabs": true,
+	"singleQuote": true,
+	"overrides": [
+		{
+			"files": "package.json",
+			"options": {
+				"useTabs": false,
+				"singleQuote": false
+			}
+		}
+	]
+}
