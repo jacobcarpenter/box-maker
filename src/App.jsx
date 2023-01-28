@@ -8,7 +8,7 @@ function App() {
 	const { box, partSpacing, zoom } = model;
 
 	return (
-		<div>
+		<section>
 			<h1>Box maker</h1>
 
 			<div className={styles.layout}>
@@ -27,7 +27,7 @@ function App() {
 					<PropertyEditor model={model} onChange={handleModelChange} />
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 }
 
