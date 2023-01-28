@@ -27,24 +27,31 @@ export function PropertyEditor({ model, onChange, onSave }) {
 						makeModelPartial={(value) => ({
 							box: { materialThickness: value },
 						})}
+						precision={0.001}
+						step={0.5}
 					/>
 
 					<NumberProperty
 						title="width"
 						value={model.box.width}
 						makeModelPartial={(value) => ({ box: { width: value } })}
+						precision={0.001}
+						step={10}
 					/>
 
 					<NumberProperty
 						title="length"
 						value={model.box.length}
 						makeModelPartial={(value) => ({ box: { length: value } })}
+						precision={0.001}
+						step={10}
 					/>
 
 					<NumberProperty
 						title="depth"
 						value={model.box.depth}
 						makeModelPartial={(value) => ({ box: { depth: value } })}
+						precision={0.001}
 					/>
 
 					<NumberProperty
@@ -82,7 +89,7 @@ export function PropertyEditor({ model, onChange, onSave }) {
 	);
 }
 
-function NumberProperty({ title, value, makeModelPartial }) {
+function NumberProperty({ title, value, makeModelPartial, ...props }) {
 	const { formId, onChange } = useContext(ModelChangeContext);
 	const id = `${formId}-${title.replace(' ', '-')}`;
 
@@ -97,6 +104,7 @@ function NumberProperty({ title, value, makeModelPartial }) {
 					id={id}
 					value={value}
 					onChange={(value) => onChange(makeModelPartial(value))}
+					{...props}
 				/>
 			</div>
 		</>

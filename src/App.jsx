@@ -40,20 +40,23 @@ function App() {
 			<h1>Box maker</h1>
 
 			<div className={styles.layout}>
-				<svg
-					width={500}
-					height={500}
-					style={{
-						backgroundColor: '#fff',
-					}}
-				>
-					<g
-						ref={boxPartsRoot}
-						transform={`${zoom ? 'scale(2) ' : ''} translate(10,10)`}
+				<div>
+					<svg
+						width={640}
+						height={500}
+						style={{
+							backgroundColor: '#fff',
+						}}
 					>
-						<BoxParts box={box} partSpacing={partSpacing} />
-					</g>
-				</svg>
+						<g
+							ref={boxPartsRoot}
+							transform={`${zoom ? 'scale(2) ' : ''} translate(10,10)`}
+						>
+							<BoxParts box={box} partSpacing={partSpacing} />
+						</g>
+					</svg>
+					<p>(whole path will be included, even if rendering is cut off)</p>
+				</div>
 				<div>
 					<PropertyEditor
 						model={model}
@@ -71,10 +74,10 @@ export default App;
 const defaultModel = {
 	box: {
 		materialThickness: 3,
-		width: 70,
-		length: 80,
+		width: 80,
+		length: 120,
 		depth: 30,
-		dividerCount: 0, // TODO: custom divider placement
+		dividerCount: 1, // TODO: custom divider placement
 	},
 	partSpacing: 4,
 	zoom: true,
