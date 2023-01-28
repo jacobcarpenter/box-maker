@@ -1,252 +1,105 @@
 import { squiggle, tabbed, divided } from './path-util';
 
 export function BoxParts({ box, partSpacing }) {
+	// shorthand declarations for better prettier formatting
+	const {
+		materialThickness: mt,
+		width: w,
+		length: l,
+		depth: d,
+		dividerCount: dc,
+	} = box;
+
 	return (
 		<>
-			<g transform={`translate(${box.depth + partSpacing},0)`}>
+			<g transform={`translate(${d + partSpacing},0)`}>
+				<Path d={`M ${mt},0 H ${w}`} />
+				<Path d={squiggle.v(w, 0, mt, d)} />
 				<Path
-					d={`M ${box.materialThickness},0
-						H ${box.width}`}
-				/>
-				<Path d={squiggle.v(box.width, 0, box.materialThickness, box.depth)} />
-				<Path
-					d={`M 0,${box.depth}
-						h ${box.materialThickness}
-						${tabbed.h(
-							box.materialThickness,
-							box.depth,
-							box.width - 2 * box.materialThickness,
-							10,
-							15,
-							box.materialThickness,
-							{
-								implicitStart: true,
-							}
-						)}`}
+					d={`M 0,${d} h ${mt} ${tabbed.h(mt, d, w - 2 * mt, 10, 15, mt, {
+						implicitStart: true,
+					})}`}
 					stroke="red"
 				/>
-				<Path
-					d={squiggle.v(
-						box.materialThickness,
-						0,
-						box.materialThickness,
-						box.depth
-					)}
-				/>
+				<Path d={squiggle.v(mt, 0, mt, d)} />
 			</g>
 
-			<g transform={`translate(0,${box.depth + partSpacing})`}>
+			<g transform={`translate(0,${d + partSpacing})`}>
 				<g transform={`translate(0,0)`}>
-					<Path d={squiggle.h(0, 0, box.materialThickness, box.depth)} />
+					<Path d={squiggle.h(0, 0, mt, d)} />
 					<Path
-						d={`
-							${tabbed.v(
-								box.depth,
-								box.materialThickness,
-								box.length - 2 * box.materialThickness,
-								10,
-								15,
-								-box.materialThickness,
-								{
-									implicitEnd: true,
-								}
-							)}
-							V ${box.length}`}
+						d={`${tabbed.v(d, mt, l - 2 * mt, 10, 15, -mt, {
+							implicitEnd: true,
+						})} V ${l}`}
 						stroke="red"
 					/>
+					<Path d={squiggle.h(0, l - mt, mt, d)} />
 					<Path
-						d={squiggle.h(
-							0,
-							box.length - box.materialThickness,
-							box.materialThickness,
-							box.depth
-						)}
-					/>
-					<Path
-						d={`M 0,0
-							${divided.v(
-								0,
-								0,
-								box.length,
-								box.dividerCount,
-								box.depth / 2,
-								box.materialThickness,
-								{ implicitEnd: true }
-							)}
-							L 0,${box.length - box.materialThickness}`}
+						d={`M 0,0 ${divided.v(0, 0, l, dc, d / 2, mt, {
+							implicitEnd: true,
+						})} L 0,${l - mt}`}
 						stroke="blue"
 					/>
 				</g>
 
-				<g transform={`translate(${box.depth + partSpacing},0)`}>
+				<g transform={`translate(${d + partSpacing},0)`}>
+					<Path d={tabbed.h(mt, mt, w - 2 * mt, 10, 15, mt)} stroke="red" />
+					<Path d={tabbed.v(w - mt, mt, l - 2 * mt, 10, 15, mt)} stroke="red" />
 					<Path
-						d={tabbed.h(
-							box.materialThickness,
-							box.materialThickness,
-							box.width - 2 * box.materialThickness,
-							10,
-							15,
-							box.materialThickness
-						)}
+						d={tabbed.h(mt, l - mt, w - 2 * mt, 10, 15, -mt)}
 						stroke="red"
 					/>
-
-					<Path
-						d={tabbed.v(
-							box.width - box.materialThickness,
-							box.materialThickness,
-							box.length - 2 * box.materialThickness,
-							10,
-							15,
-							box.materialThickness
-						)}
-						stroke="red"
-					/>
-
-					<Path
-						d={tabbed.h(
-							box.materialThickness,
-							box.length - box.materialThickness,
-							box.width - 2 * box.materialThickness,
-							10,
-							15,
-							-box.materialThickness
-						)}
-						stroke="red"
-					/>
-
-					<Path
-						d={tabbed.v(
-							box.materialThickness,
-							box.materialThickness,
-							box.length - 2 * box.materialThickness,
-							10,
-							15,
-							-box.materialThickness
-						)}
-						stroke="red"
-					/>
+					<Path d={tabbed.v(mt, mt, l - 2 * mt, 10, 15, -mt)} stroke="red" />
 				</g>
 
-				<g
-					transform={`translate(${
-						box.depth + partSpacing + box.width + partSpacing
-					},0)`}
-				>
-					<Path d={squiggle.h(0, 0, box.materialThickness, box.depth)} />
+				<g transform={`translate(${d + partSpacing + w + partSpacing},0)`}>
+					<Path d={squiggle.h(0, 0, mt, d)} />
 					<Path
-						d={`M ${box.depth},${box.materialThickness}
-							${divided.v(
-								box.depth,
-								0,
-								box.length,
-								box.dividerCount,
-								-(box.depth / 2),
-								box.materialThickness,
-								{ implicitStart: true }
-							)}`}
+						d={`M ${d},${mt} ${divided.v(d, 0, l, dc, -(d / 2), mt, {
+							implicitStart: true,
+						})}`}
 						stroke="blue"
 					/>
+					<Path d={squiggle.h(0, l - mt, mt, d)} />
 					<Path
-						d={squiggle.h(
-							0,
-							box.length - box.materialThickness,
-							box.materialThickness,
-							box.depth
-						)}
-					/>
-					<Path
-						d={`M 0,0
-							v ${box.materialThickness}
-							${tabbed.v(
-								0,
-								box.materialThickness,
-								box.length - 2 * box.materialThickness,
-								10,
-								15,
-								box.materialThickness,
-								{
-									implicitStart: true,
-								}
-							)}`}
+						d={`M 0,0 v ${mt} ${tabbed.v(0, mt, l - 2 * mt, 10, 15, mt, {
+							implicitStart: true,
+						})}`}
 						stroke="red"
 					/>
 				</g>
 			</g>
 
 			<g
-				transform={`translate(${box.depth + partSpacing},${
-					box.depth + partSpacing + box.length + partSpacing
+				transform={`translate(${d + partSpacing},${
+					d + partSpacing + l + partSpacing
 				})`}
 			>
 				<Path
-					d={`
-						${tabbed.h(
-							box.materialThickness,
-							0,
-							box.width - 2 * box.materialThickness,
-							10,
-							15,
-							-box.materialThickness,
-							{
-								implicitEnd: true,
-							}
-						)}
-						H ${box.width}`}
+					d={`${tabbed.h(mt, 0, w - 2 * mt, 10, 15, -mt, {
+						implicitEnd: true,
+					})} H ${w}`}
 					stroke="red"
 				/>
-				<Path
-					d={`M ${box.width},0
-						V ${box.depth / 2}
-						H ${box.width - box.materialThickness}
-						V ${box.depth}`}
-				/>
-				<Path
-					d={`M ${box.width - box.materialThickness},${box.depth}
-						H 0`}
-				/>
-				<Path
-					d={`M 0,${box.depth}
-						V ${box.depth / 2}
-						H ${box.materialThickness}
-						V 0`}
-				/>
+				<Path d={`M ${w},0 V ${d / 2} H ${w - mt} V ${d}`} />
+				<Path d={`M ${w - mt},${d} H 0`} />
+				<Path d={`M 0,${d} V ${d / 2} H ${mt} V 0`} />
 			</g>
 
 			<g
 				transform={`translate(${
-					box.depth +
-					partSpacing +
-					box.width +
-					partSpacing +
-					box.depth +
-					partSpacing * 2 // * 2 not necessary, but more aesthetic
+					d + partSpacing + w + partSpacing + d + partSpacing * 2
 				},0)`}
 			>
-				{Array.from({ length: box.dividerCount }).map((_, index) => (
+				{Array.from({ length: dc }).map((_, index) => (
 					<g
 						key={index}
-						transform={`translate(0,${(box.depth + partSpacing) * index})`}
+						transform={`translate(0,${(d + partSpacing) * index})`}
 					>
-						<Path d={`M 0,0 L ${box.width},0`} />
-						<Path
-							d={`M ${box.width},0
-							V ${box.depth / 2}
-							h ${-box.materialThickness}
-							V ${box.depth - box.materialThickness}`}
-						/>
-						<Path
-							d={`M ${box.width - box.materialThickness},${
-								box.depth - box.materialThickness
-							}
-								H ${box.materialThickness}`}
-						/>
-						<Path
-							d={`M 0,0
-							V ${box.depth / 2}
-							h ${box.materialThickness}
-							V ${box.depth - box.materialThickness}`}
-						/>
+						<Path d={`M 0,0 H ${w}`} />
+						<Path d={`M ${w},0 V ${d / 2} h ${-mt} V ${d - mt}`} />
+						<Path d={`M ${w - mt},${d - mt} H ${mt}`} />
+						<Path d={`M 0,0 V ${d / 2} h ${mt} V ${d - mt}`} />
 					</g>
 				))}
 			</g>

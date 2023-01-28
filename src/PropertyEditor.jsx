@@ -4,7 +4,7 @@ import styles from './PropertyEditor.module.css';
 
 const ModelChangeContext = createContext();
 
-export function PropertyEditor({ model, onChange }) {
+export function PropertyEditor({ model, onChange, onSave }) {
 	const formId = useId();
 
 	const modelChangeContextValue = useMemo(
@@ -15,7 +15,10 @@ export function PropertyEditor({ model, onChange }) {
 	// TODO: CSS subgrid would be nice...
 	// TODO: JedWatson/classnames?
 	return (
-		<form className={`${[styles.main, styles.stack].join(' ')}`}>
+		<form
+			className={`${[styles.main, styles.stack].join(' ')}`}
+			onSubmit={(e) => e.preventDefault()}
+		>
 			<ModelChangeContext.Provider value={modelChangeContextValue}>
 				<div className={styles.twoColumn}>
 					<NumberProperty
@@ -69,6 +72,10 @@ export function PropertyEditor({ model, onChange }) {
 						/>{' '}
 						zoom
 					</label>
+				</div>
+
+				<div className={styles.doubleTopGap}>
+					<button onClick={onSave}>Download SVG</button>
 				</div>
 			</ModelChangeContext.Provider>
 		</form>
