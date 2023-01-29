@@ -25,26 +25,36 @@ export function NumberInput({
 
 			e.preventDefault();
 
-			if (!e.target.checkValidity()) {
+			customStep(e.target, e.deltaY < 0, step, precision, onChangeRef.current);
+		}
+
+		function handleKeyDown(e) {
+			if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') {
 				return;
 			}
 
-			const changeAmount = (step ?? 1) / precision;
-
-			if (e.deltaY < 0) {
-				e.target.stepUp(changeAmount);
-			} else {
-				e.target.stepDown(changeAmount);
+			if (typeof precision !== 'number') {
+				return;
 			}
 
-			onChangeRef.current?.(parseFloat(e.target.value));
+			e.preventDefault();
+
+			customStep(
+				e.target,
+				e.key === 'ArrowUp',
+				step,
+				precision,
+				onChangeRef.current
+			);
 		}
 
 		const inputInstance = inputRef.current;
 		inputInstance.addEventListener('wheel', handleWheel);
+		inputInstance.addEventListener('keydown', handleKeyDown);
 
 		return () => {
 			inputInstance.removeEventListener('wheel', handleWheel);
+			inputInstance.removeEventListener('keydown', handleKeyDown);
 		};
 	}, [precision, step]);
 
@@ -74,4 +84,16 @@ export function NumberInput({
 			{...props}
 		/>
 	);
+}
+
+function customStep(target, up, step, precision, onChange) {
+	const changeAmount = (step ?? 1) / precision;
+
+	if (up) {
+		target.stepUp(changeAmount);
+	} else {
+		target.stepDown(changeAmount);
+	}
+
+	onChange?.(parseFloat(target.value));
 }
