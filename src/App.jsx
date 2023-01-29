@@ -4,13 +4,18 @@ import { PropertyEditor } from './PropertyEditor';
 import styles from './App.module.css';
 
 function App() {
+	const invisibleDownloadLink = useRef(null);
 	const boxPartsRoot = useRef(null);
 
 	const [model, handleModelChange] = useReducer(applyChange, null, initModel);
 	const { box, partSpacing, zoom } = model;
 
 	const handleSave = useCallback(async () => {
-		const blobURL = URL.createObjectURL(
+		const aDownload = invisibleDownloadLink.current;
+
+		// revoke last object url (safe to revoke `null`) before assigning a new one
+		URL.revokeObjectURL(aDownload.href);
+		aDownload.href = URL.createObjectURL(
 			new Blob(
 				[
 					`<svg width="500mm" height="500mm" viewBox="0 0 500 500">${boxPartsRoot.current.innerHTML}</svg>`,
@@ -21,22 +26,16 @@ function App() {
 			)
 		);
 
-		const invisibleDownloadLink = document.createElement('a');
-		invisibleDownloadLink.href = blobURL;
-		invisibleDownloadLink.download = 'box.svg';
-		invisibleDownloadLink.style.display = 'none';
-		document.body.appendChild(invisibleDownloadLink);
-
-		invisibleDownloadLink.click();
-
-		setTimeout(() => {
-			URL.revokeObjectURL(blobURL);
-			invisibleDownloadLink.remove();
-		});
+		aDownload.click();
 	}, []);
 
 	return (
 		<section>
+			<a
+				ref={invisibleDownloadLink}
+				className={styles.invisibleDownloadLink}
+				download="box.svg"
+			/>
 			<h1>Box maker</h1>
 
 			<div className={styles.layout}>
