@@ -15,10 +15,6 @@ module.exports = {
 	],
 	overrides: [],
 	parserOptions: {
-		// TODO: should not be required after the fix for https://github.com/jsx-eslint/eslint-plugin-react/issues/3523 is released
-		ecmaFeatures: {
-			jsx: true,
-		},
 		ecmaVersion: 'latest',
 		sourceType: 'module',
 	},
