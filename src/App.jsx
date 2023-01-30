@@ -40,13 +40,7 @@ function App() {
 
 			<div className={styles.layout}>
 				<div>
-					<svg
-						width={640}
-						height={500}
-						style={{
-							backgroundColor: '#fff',
-						}}
-					>
+					<svg className={styles.boxDrawing} width={640} height={500}>
 						<g
 							ref={boxPartsRoot}
 							transform={`${zoom ? 'scale(2) ' : ''} translate(10,10)`}
