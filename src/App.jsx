@@ -1,24 +1,28 @@
-import { useReducer, useRef, useCallback } from 'react';
+import { useReducer, useRef } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { BoxParts } from './BoxParts';
 import { PropertyEditor } from './PropertyEditor';
 import styles from './App.module.css';
 
 function App() {
 	const invisibleDownloadLink = useRef(null);
-	const boxPartsRoot = useRef(null);
 
 	const [model, handleModelChange] = useReducer(applyChange, null, initModel);
 	const { box, partSpacing, zoom } = model;
 
-	const handleSave = useCallback(async () => {
+	const handleSave = async () => {
 		const aDownload = invisibleDownloadLink.current;
+
+		const staticRendering = renderToStaticMarkup(
+			<BoxParts forExport box={box} partSpacing={partSpacing} />
+		);
 
 		// revoke last object url (safe to revoke `null`) before assigning a new one
 		URL.revokeObjectURL(aDownload.href);
 		aDownload.href = URL.createObjectURL(
 			new Blob(
 				[
-					`<svg width="500mm" height="500mm" viewBox="0 0 500 500">${boxPartsRoot.current.innerHTML}</svg>`,
+					`<svg width="500mm" height="500mm" viewBox="0 0 500 500">${staticRendering}</svg>`,
 				],
 				{
 					type: 'image/svg+xml',
@@ -27,7 +31,7 @@ function App() {
 		);
 
 		aDownload.click();
-	}, []);
+	};
 
 	return (
 		<section>
@@ -41,14 +45,11 @@ function App() {
 			<div className={styles.layout}>
 				<div>
 					<svg className={styles.boxDrawing} width={640} height={500}>
-						<g
-							ref={boxPartsRoot}
-							transform={`${zoom ? 'scale(2) ' : ''} translate(10,10)`}
-						>
+						<g transform={`${zoom ? 'scale(2) ' : ''} translate(10,10)`}>
 							<BoxParts box={box} partSpacing={partSpacing} />
 						</g>
 					</svg>
-					<p>(whole path will be included, even if rendering is cut off)</p>
+					<p>(whole path will be included, even if preview is cut off)</p>
 				</div>
 				<div>
 					<PropertyEditor

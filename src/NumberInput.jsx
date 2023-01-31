@@ -10,7 +10,7 @@ export function NumberInput({
 }) {
 	const inputRef = useRef(null);
 
-	// TODO: can probably clean this up once `useEvent` is released
+	// TODO: clean this up once `useEffectEvent` is released?
 	const onChangeRef = useRef(null);
 	useEffect(() => {
 		onChangeRef.current = onChange;

@@ -1,6 +1,9 @@
+import { createContext, useContext } from 'react';
 import { squiggle, tabbed, divided } from './path-util';
 
-export function BoxParts({ box, partSpacing }) {
+const ExportContext = createContext();
+
+export function BoxParts({ box, partSpacing, forExport }) {
 	// shorthand declarations for better prettier formatting
 	const {
 		materialThickness: mt,
@@ -11,7 +14,7 @@ export function BoxParts({ box, partSpacing }) {
 	} = box;
 
 	return (
-		<>
+		<ExportContext.Provider value={forExport}>
 			<g transform={`translate(${d + partSpacing},0)`}>
 				<Path d={`M ${mt},0 H ${w}`} />
 				<Path d={squiggle.v(w, 0, mt, d)} />
@@ -103,7 +106,7 @@ export function BoxParts({ box, partSpacing }) {
 					</g>
 				))}
 			</g>
-		</>
+		</ExportContext.Provider>
 	);
 }
 
@@ -113,10 +116,12 @@ function Path({
 	strokeLinecap = 'square',
 	...props
 }) {
+	const forExport = useContext(ExportContext);
+
 	return (
 		<path
 			fill={fill}
-			stroke={stroke}
+			stroke={forExport ? '#000' : stroke}
 			strokeLinecap={strokeLinecap}
 			{...props}
 		/>
