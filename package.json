@@ -13,6 +13,9 @@
     "lint": "yarn run prettier:check && yarn run eslint:lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@swc/plugin-emotion": "^2.5.40",
+    "@theme-ui/core": "^0.15.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

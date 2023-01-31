@@ -1,6 +1,5 @@
 import { useId, createContext, useMemo, useContext } from 'react';
 import { NumberInput } from './NumberInput';
-import styles from './PropertyEditor.module.css';
 
 const ModelChangeContext = createContext();
 
@@ -13,14 +12,26 @@ export function PropertyEditor({ model, onChange, onSave }) {
 	);
 
 	// TODO: CSS subgrid would be nice...
-	// TODO: JedWatson/classnames?
 	return (
 		<form
-			className={`${[styles.main, styles.stack].join(' ')}`}
 			onSubmit={(e) => e.preventDefault()}
+			sx={{
+				textAlign: 'left',
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '12px',
+			}}
 		>
 			<ModelChangeContext.Provider value={modelChangeContextValue}>
-				<div className={styles.twoColumn}>
+				<div
+					sx={{
+						display: 'grid',
+						gridTemplateColumns: 'max-content 1fr',
+						alignContent: 'start',
+						gap: '12px',
+						columnGap: '1em',
+					}}
+				>
 					<NumberProperty
 						title="material thickness"
 						value={model.box.materialThickness}
@@ -81,7 +92,7 @@ export function PropertyEditor({ model, onChange, onSave }) {
 					</label>
 				</div>
 
-				<div className={styles.doubleTopGap}>
+				<div sx={{ marginTop: '24px' }}>
 					<button onClick={onSave}>Download SVG</button>
 				</div>
 			</ModelChangeContext.Provider>

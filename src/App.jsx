@@ -1,8 +1,6 @@
 import { useReducer, useRef } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
 import { BoxParts } from './BoxParts';
 import { PropertyEditor } from './PropertyEditor';
-import styles from './App.module.css';
 
 function App() {
 	const invisibleDownloadLink = useRef(null);
@@ -12,6 +10,8 @@ function App() {
 
 	const handleSave = async () => {
 		const aDownload = invisibleDownloadLink.current;
+
+		const { renderToStaticMarkup } = await import('react-dom/server');
 
 		const staticRendering = renderToStaticMarkup(
 			<BoxParts forExport box={box} partSpacing={partSpacing} />
@@ -37,14 +37,29 @@ function App() {
 		<section>
 			<a
 				ref={invisibleDownloadLink}
-				className={styles.invisibleDownloadLink}
 				download="box.svg"
+				sx={{ display: 'none' }}
 			/>
 			<h1>Box maker</h1>
 
-			<div className={styles.layout}>
+			<div
+				sx={{
+					display: 'flex',
+					gap: '24px',
+					'@media (width <= 1010px)': {
+						flexDirection: 'column',
+					},
+				}}
+			>
 				<div>
-					<svg className={styles.boxDrawing} width={640} height={500}>
+					<svg
+						width={640}
+						height={500}
+						sx={{
+							backgroundColor: '#fff',
+							width: '100%',
+						}}
+					>
 						<g transform={`${zoom ? 'scale(2) ' : ''} translate(10,10)`}>
 							<BoxParts box={box} partSpacing={partSpacing} />
 						</g>
