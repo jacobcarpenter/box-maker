@@ -114,15 +114,26 @@ function Path({
 	fill = 'none',
 	stroke = '#000',
 	strokeLinecap = 'square',
+	style,
 	...props
 }) {
 	const forExport = useContext(ExportContext);
 
+	if (forExport) {
+		stroke = '#f00';
+		style = {
+			...style,
+			vectorEffect: 'non-scaling-stroke',
+			'-inkscapeStroke': 'hairline',
+		};
+	}
+
 	return (
 		<path
 			fill={fill}
-			stroke={forExport ? '#000' : stroke}
+			stroke={stroke}
 			strokeLinecap={strokeLinecap}
+			style={style}
 			{...props}
 		/>
 	);
