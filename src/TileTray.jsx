@@ -17,7 +17,15 @@ export function TileTray() {
 			/>
 			<h1>Tile tray</h1>
 
-			<div sx={{ display: 'flex', flexDirection: 'column' }}>
+			<div
+				sx={{
+					display: 'flex',
+					gap: '24px',
+					'@media (width <= 1010px)': {
+						flexDirection: 'column',
+					},
+				}}
+			>
 				<div>
 					<svg
 						width={640}
