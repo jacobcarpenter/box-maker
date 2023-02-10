@@ -1,37 +1,13 @@
-import { useReducer, useRef } from 'react';
+import { useReducer } from 'react';
 import { BoxParts } from './BoxParts';
 import { PropertyEditor } from './PropertyEditor';
+import { useDownloadSVG } from './useDownloadSVG';
 
 function App() {
-	const invisibleDownloadLink = useRef(null);
-
 	const [model, handleModelChange] = useReducer(applyChange, null, initModel);
 	const { box, partSpacing, zoom } = model;
 
-	const handleSave = async () => {
-		const aDownload = invisibleDownloadLink.current;
-
-		const { renderToStaticMarkup } = await import('react-dom/server');
-
-		const staticRendering = renderToStaticMarkup(
-			<BoxParts forExport box={box} partSpacing={partSpacing} />
-		);
-
-		// revoke last object url (safe to revoke `null`) before assigning a new one
-		URL.revokeObjectURL(aDownload.href);
-		aDownload.href = URL.createObjectURL(
-			new Blob(
-				[
-					`<svg width="500mm" height="500mm" viewBox="0 0 500 500">${staticRendering}</svg>`,
-				],
-				{
-					type: 'image/svg+xml',
-				}
-			)
-		);
-
-		aDownload.click();
-	};
+	const [invisibleDownloadLink, handleDownload] = useDownloadSVG();
 
 	return (
 		<section>
@@ -68,10 +44,36 @@ function App() {
 				</div>
 				<div>
 					<PropertyEditor
+						editableProperties={editableProperties}
 						model={model}
 						onChange={handleModelChange}
-						onSave={handleSave}
-					/>
+					>
+						{/* TODO: move zoom control somewhere else */}
+						<div>
+							<label>
+								<input
+									type="checkbox"
+									checked={model.zoom}
+									onChange={(e) => {
+										handleModelChange({ zoom: e.target.checked });
+									}}
+								/>{' '}
+								zoom
+							</label>
+						</div>
+
+						<div sx={{ marginTop: '16px' }}>
+							<button
+								onClick={() =>
+									handleDownload(() => (
+										<BoxParts forExport box={box} partSpacing={partSpacing} />
+									))
+								}
+							>
+								Download SVG
+							</button>
+						</div>
+					</PropertyEditor>
 				</div>
 			</div>
 		</section>
@@ -79,6 +81,47 @@ function App() {
 }
 
 export default App;
+
+const editableProperties = [
+	{
+		title: 'material thickness',
+		getValue: (model) => model.box.materialThickness,
+		makePartial: (materialThickness) => ({ box: { materialThickness } }),
+		precision: 0.001,
+		step: 0.5,
+	},
+	{
+		title: 'width',
+		getValue: (model) => model.box.width,
+		makePartial: (width) => ({ box: { width } }),
+		precision: 0.001,
+		step: 10,
+	},
+	{
+		title: 'length',
+		getValue: (model) => model.box.length,
+		makePartial: (length) => ({ box: { length } }),
+		precision: 0.001,
+		step: 10,
+	},
+	{
+		title: 'depth',
+		getValue: (model) => model.box.depth,
+		makePartial: (depth) => ({ box: { depth } }),
+		precision: 0.001,
+		step: 10,
+	},
+	{
+		title: 'divider count',
+		getValue: (model) => model.box.dividerCount,
+		makePartial: (dividerCount) => ({ box: { dividerCount } }),
+	},
+	{
+		title: 'part spacing',
+		getValue: (model) => model.partSpacing,
+		makePartial: (partSpacing) => ({ partSpacing }),
+	},
+];
 
 const defaultModel = {
 	box: {

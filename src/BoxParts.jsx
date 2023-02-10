@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import { squiggle, tabbed, divided } from './path-util';
 
-const ExportContext = createContext(false);
+export const ExportContext = createContext(false);
 
 export function BoxParts({ box, partSpacing, forExport }) {
 	// shorthand declarations for better prettier formatting

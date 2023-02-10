@@ -3,7 +3,12 @@ import { NumberInput } from './NumberInput';
 
 const ModelChangeContext = createContext();
 
-export function PropertyEditor({ model, onChange, onSave }) {
+export function PropertyEditor({
+	editableProperties,
+	model,
+	onChange,
+	children,
+}) {
 	const formId = useId();
 
 	const modelChangeContextValue = useMemo(
@@ -32,75 +37,23 @@ export function PropertyEditor({ model, onChange, onSave }) {
 						columnGap: '1em',
 					}}
 				>
-					<NumberProperty
-						title="material thickness"
-						value={model.box.materialThickness}
-						makeModelPartial={(value) => ({
-							box: { materialThickness: value },
-						})}
-						precision={0.001}
-						step={0.5}
-					/>
-
-					<NumberProperty
-						title="width"
-						value={model.box.width}
-						makeModelPartial={(value) => ({ box: { width: value } })}
-						precision={0.001}
-						step={10}
-					/>
-
-					<NumberProperty
-						title="length"
-						value={model.box.length}
-						makeModelPartial={(value) => ({ box: { length: value } })}
-						precision={0.001}
-						step={10}
-					/>
-
-					<NumberProperty
-						title="depth"
-						value={model.box.depth}
-						makeModelPartial={(value) => ({ box: { depth: value } })}
-						precision={0.001}
-					/>
-
-					<NumberProperty
-						title="divider count"
-						value={model.box.dividerCount}
-						makeModelPartial={(value) => ({ box: { dividerCount: value } })}
-					/>
-
-					<NumberProperty
-						title="part spacing"
-						value={model.partSpacing}
-						makeModelPartial={(value) => ({ partSpacing: value })}
-					/>
+					{editableProperties.map(({ getValue, ...props }, i) => (
+						<NumberProperty key={i} value={getValue(model)} {...props} />
+					))}
 				</div>
 
-				{/* TODO: move zoom controls somewhere else */}
-				<div>
-					<label>
-						<input
-							type="checkbox"
-							checked={model.zoom}
-							onChange={(e) => {
-								onChange({ zoom: e.target.checked });
-							}}
-						/>{' '}
-						zoom
-					</label>
-				</div>
-
-				<div sx={{ marginTop: '24px' }}>
-					<button onClick={onSave}>Download SVG</button>
-				</div>
+				{children}
 			</ModelChangeContext.Provider>
 		</form>
 	);
 }
 
-function NumberProperty({ title, value, makeModelPartial, ...props }) {
+function NumberProperty({
+	title,
+	value,
+	makePartial: makeModelPartial,
+	...props
+}) {
 	const { formId, onChange } = useContext(ModelChangeContext);
 	const id = `${formId}-${title.replace(' ', '-')}`;
 

@@ -1,7 +1,8 @@
-import { Path } from './BoxParts';
+import { Path, ExportContext } from './BoxParts';
 import { distributeTabs, divided, squiggle, tabbed } from './path-util';
 
 export function TileTrayParts({
+	forExport,
 	partSpacing,
 	thickness,
 	tileAreaSize,
@@ -13,7 +14,7 @@ export function TileTrayParts({
 	const boxSize = tileAreaSize * 2 + thickness;
 
 	return (
-		<>
+		<ExportContext.Provider value={forExport}>
 			<g>
 				<Path
 					d={`M0,0 ${tabbed.h(
@@ -127,7 +128,7 @@ export function TileTrayParts({
 						boxSize,
 						1,
 						-(height - thickness) / 2,
-						3,
+						thickness,
 						{ implicitStart: true, implicitEnd: true }
 					)} V${boxSize + thickness}`}
 				/>
@@ -254,6 +255,6 @@ export function TileTrayParts({
 				<Path d={tabbed.h(0, height, sideSize, tabLength, tabGap, thickness)} />
 				<Path d={`M0,0 V${height}`} />
 			</g>
-		</>
+		</ExportContext.Provider>
 	);
 }
