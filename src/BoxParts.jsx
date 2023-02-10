@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import { squiggle, tabbed, divided } from './path-util';
 
-const ExportContext = createContext();
+const ExportContext = createContext(false);
 
 export function BoxParts({ box, partSpacing, forExport }) {
 	// shorthand declarations for better prettier formatting
@@ -110,7 +110,7 @@ export function BoxParts({ box, partSpacing, forExport }) {
 	);
 }
 
-function Path({
+export function Path({
 	fill = 'none',
 	stroke = '#000',
 	strokeLinecap = 'square',
