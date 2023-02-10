@@ -109,7 +109,6 @@ const editableProperties = [
 		getValue: (model) => model.box.depth,
 		makePartial: (depth) => ({ box: { depth } }),
 		precision: 0.001,
-		step: 10,
 	},
 	{
 		title: 'divider count',

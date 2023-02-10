@@ -12,6 +12,7 @@ export function TileTrayParts({
 	tabGap,
 }) {
 	const boxSize = tileAreaSize * 2 + thickness;
+	const boxSizePlusTabs = boxSize + thickness; // Top/Left tabs drawn in negative coordinates, so not included in size
 
 	return (
 		<ExportContext.Provider value={forExport}>
@@ -117,7 +118,7 @@ export function TileTrayParts({
 					))}
 			</g>
 
-			<g transform={`translate(${boxSize + partSpacing}, 0)`}>
+			<g transform={`translate(${boxSizePlusTabs + partSpacing}, 0)`}>
 				<Path
 					d={`M${thickness},0 ${squiggle.h(thickness, 0, -thickness, height)}`}
 				/>
@@ -165,7 +166,7 @@ export function TileTrayParts({
 
 			<g
 				transform={`translate(${
-					boxSize + partSpacing + height + partSpacing
+					boxSizePlusTabs + partSpacing + height + partSpacing
 				}, 0)`}
 			>
 				<Path d={divided.h(0, 0, sideSize, 1, height / 2, thickness)} />
@@ -176,7 +177,7 @@ export function TileTrayParts({
 
 			<g
 				transform={`translate(${
-					boxSize + partSpacing + height + partSpacing
+					boxSizePlusTabs + partSpacing + height + partSpacing
 				}, ${height + partSpacing})`}
 			>
 				<Path d={divided.h(0, 0, sideSize, 1, height / 2, thickness)} />
@@ -185,7 +186,7 @@ export function TileTrayParts({
 				<Path d={`M0,0 V${height}`} />
 			</g>
 
-			<g transform={`translate(0, ${boxSize + partSpacing})`}>
+			<g transform={`translate(0, ${boxSizePlusTabs + partSpacing})`}>
 				<Path
 					d={`${tabbed.h(
 						0,
@@ -237,7 +238,7 @@ export function TileTrayParts({
 
 			<g
 				transform={`translate(0,${
-					boxSize + partSpacing + height + partSpacing
+					boxSizePlusTabs + partSpacing + height + partSpacing
 				})`}
 			>
 				<Path d={divided.h(0, 0, sideSize, 1, height / 2, thickness)} />
@@ -247,7 +248,7 @@ export function TileTrayParts({
 			</g>
 			<g
 				transform={`translate(${sideSize + partSpacing},${
-					boxSize + partSpacing + height + partSpacing
+					boxSizePlusTabs + partSpacing + height + partSpacing
 				})`}
 			>
 				<Path d={divided.h(0, 0, sideSize, 1, height / 2, thickness)} />

@@ -40,8 +40,8 @@ export function TileTray() {
 								<TileTrayParts
 									partSpacing={model.partSpacing}
 									thickness={model.tray.materialThickness}
-									tileAreaSize={tileAreaSize}
-									sideSize={sideSize}
+									tileAreaSize={model.tray.tileAreaSize}
+									sideSize={model.tray.sideSize}
 									height={model.tray.height}
 									tabLength={tabLength}
 									tabGap={tabGap}
@@ -64,8 +64,8 @@ export function TileTray() {
 											forExport
 											partSpacing={model.partSpacing}
 											thickness={model.tray.materialThickness}
-											tileAreaSize={tileAreaSize}
-											sideSize={sideSize}
+											tileAreaSize={model.tray.tileAreaSize}
+											sideSize={model.tray.sideSize}
 											height={model.tray.height}
 											tabLength={tabLength}
 											tabGap={tabGap}
@@ -96,7 +96,18 @@ const editableProperties = [
 		getValue: (model) => model.tray.height,
 		makePartial: (height) => ({ tray: { height } }),
 		precision: 0.001,
-		step: 10,
+	},
+	{
+		title: 'tile area size',
+		getValue: (model) => model.tray.tileAreaSize,
+		makePartial: (tileAreaSize) => ({ tray: { tileAreaSize } }),
+		precision: 0.001,
+	},
+	{
+		title: 'side size',
+		getValue: (model) => model.tray.sideSize,
+		makePartial: (sideSize) => ({ tray: { sideSize } }),
+		precision: 0.001,
 	},
 	{
 		title: 'part spacing',
@@ -105,9 +116,6 @@ const editableProperties = [
 	},
 ];
 
-const tileAreaSize = 38;
-const sideSize = 33;
-
 const tabLength = 10;
 const tabGap = 15;
 
@@ -115,6 +123,8 @@ const defaultModel = {
 	tray: {
 		materialThickness: 3,
 		height: 21,
+		tileAreaSize: 38,
+		sideSize: 33,
 	},
 	partSpacing: 4,
 };

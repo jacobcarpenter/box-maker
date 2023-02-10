@@ -37,8 +37,13 @@ export function PropertyEditor({
 						columnGap: '1em',
 					}}
 				>
-					{editableProperties.map(({ getValue, ...props }, i) => (
-						<NumberProperty key={i} value={getValue(model)} {...props} />
+					{editableProperties.map(({ title, getValue, ...props }, i) => (
+						<NumberProperty
+							key={`${i}:${title}`}
+							title={title}
+							value={getValue(model)}
+							{...props}
+						/>
 					))}
 				</div>
 
