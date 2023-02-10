@@ -124,7 +124,7 @@ export const squiggle = {
 		const halfHeight = height / 2;
 		return `${implicitStart ? '' : `M ${startX},${startY} `}V ${halfHeight} H ${
 			startX - squiggleWidth
-		} ${implicitEnd ? '' : `V ${height}`}`;
+		}${implicitEnd ? '' : ` V ${height}`}`;
 	},
 
 	h(
@@ -140,6 +140,6 @@ export const squiggle = {
 		const halfWidth = width / 2;
 		return `${implicitStart ? '' : `M ${startX},${startY} `}H ${halfWidth} V ${
 			startY + squiggleHeight
-		} ${implicitEnd ? '' : `H ${width}`}`;
+		}${implicitEnd ? '' : ` H ${width}`}`;
 	},
 };
