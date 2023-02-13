@@ -100,13 +100,13 @@ export const divided = {
 		const spaceAround = fullDistance - dividerCount * dividerThickness;
 		const singleSpace = spaceAround / (dividerCount + 1);
 
-		return `${implicitStart ? '' : `M ${startX},${startY}`} ${Array.from(
+		return `${implicitStart ? '' : `M ${startX},${startY} `}${Array.from(
 			{ length: dividerCount },
 			(_, index) =>
 				`H ${
 					(singleSpace + dividerThickness) * index + singleSpace
 				} v ${dividerDepth} h ${dividerThickness} v ${-dividerDepth}`
-		).join(' ')} ${implicitEnd ? '' : `H ${startY + fullDistance}`}`;
+		).join(' ')}${implicitEnd ? '' : ` H ${startY + fullDistance}`}`;
 	},
 };
 
@@ -122,9 +122,9 @@ export const squiggle = {
 		}
 	) {
 		const halfHeight = height / 2;
-		return `${implicitStart ? '' : `M ${startX},${startY} `}V ${halfHeight} H ${
+		return `${implicitStart ? '' : `M${startX},${startY} `}V${halfHeight} H${
 			startX - squiggleWidth
-		}${implicitEnd ? '' : ` V ${height}`}`;
+		}${implicitEnd ? '' : ` V${height}`}`;
 	},
 
 	h(
@@ -138,8 +138,20 @@ export const squiggle = {
 		}
 	) {
 		const halfWidth = width / 2;
-		return `${implicitStart ? '' : `M ${startX},${startY} `}H ${halfWidth} V ${
+
+		// TODO: refactor to array + join based conditional composition? (see below)
+		// TOOD: refactor even further to generator functions with composition helpers?
+
+		// return [
+		// 	!implicitStart && `M${startX},${startY}`,
+		// 	`H${halfWidth} V${startY + squiggleHeight}`,
+		// 	!implicitEnd && `H${width}`,
+		// ]
+		// 	.filter((x) => x)
+		// 	.join(' ');
+
+		return `${implicitStart ? '' : `M${startX},${startY} `}H${halfWidth} V${
 			startY + squiggleHeight
-		}${implicitEnd ? '' : ` H ${width}`}`;
+		}${implicitEnd ? '' : ` H${width}`}`;
 	},
 };
