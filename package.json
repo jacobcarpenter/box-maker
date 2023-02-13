@@ -10,7 +10,8 @@
     "prettier:check": "prettier -c .",
     "prettier:format": "prettier -w .",
     "eslint:lint": "eslint --ext .js,.jsx,.ts,.tsx .",
-    "lint": "yarn run prettier:check && yarn run eslint:lint"
+    "lint": "yarn run prettier:check && yarn run eslint:lint",
+    "test": "vitest # uses process.env.CI to automatically switch between watch and run modes"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
