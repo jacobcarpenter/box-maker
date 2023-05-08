@@ -18,7 +18,7 @@
     "@theme-ui/core": "^0.15.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.1"
+    "react-router-dom": "^6.11.1"
   },
   "devDependencies": {
     "@swc/plugin-emotion": "^2.5.41",
